@@ -14,20 +14,20 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read','cart:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read','cart:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read','cart:read'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read'],'cart:read')]
     private ?Category $category = null;
 
     /**
@@ -48,7 +48,7 @@ class Product
      * @var Collection<int, Attachment>
      */
     #[ORM\OneToMany(targetEntity: Attachment::class, mappedBy: 'product')]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read','cart:read'])]
     private Collection $attachments;
 
     /**

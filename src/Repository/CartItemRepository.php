@@ -8,6 +8,11 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<CartItem>
+ *
+ * @method CartItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CartItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CartItem[]    findAll()
+ * @method CartItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CartItemRepository extends ServiceEntityRepository
 {
@@ -16,28 +21,32 @@ class CartItemRepository extends ServiceEntityRepository
         parent::__construct($registry, CartItem::class);
     }
 
-    //    /**
-    //     * @return CartItem[] Returns an array of CartItem objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function save(CartItem $entity): void
+    {
+        $this->getEntityManager()->persist($entity);
 
-    //    public function findOneBySomeField($value): ?CartItem
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $this->getEntityManager()->flush();
+    }
+
+    public function remove(CartItem $entity): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function findExistingCartItem(int $userId, int $productId, int $sizeId, int $colorId): ?CartItem
+    {
+        return $this->findOneBy([
+            'user' => $userId,
+            'product' => $productId,
+            'size' => $sizeId,
+            'color' => $colorId
+        ]);
+    }
+
+    public function findByUser(int $userId): array
+    {
+        return $this->findBy(['user' => $userId], ['add_date' => 'DESC']);
+    }
 }

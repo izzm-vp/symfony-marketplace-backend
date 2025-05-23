@@ -15,19 +15,19 @@ class Size
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['size:read','product:read'])]
+    #[Groups(['size:read','product:read','cart:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['size:read','product:read'])]
+    #[Groups(['size:read','product:read','cart:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
-    #[Groups(['size:read','product:read'])]
+    #[Groups(['size:read','product:read','cart:read'])]
     private ?string $price = null;
 
     #[ORM\Column]
-    #[Groups(['size:read','product:read'])]
+    #[Groups(['size:read','product:read','cart:read'])]
     private ?bool $in_stock = null;
 
     #[ORM\ManyToOne(inversedBy: 'sizes')]

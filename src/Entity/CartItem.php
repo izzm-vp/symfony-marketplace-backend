@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CartItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
 class CartItem
@@ -12,19 +13,24 @@ class CartItem
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('cart:read')]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups('cart:read')]
     private ?\DateTime $add_date = null;
 
     #[ORM\Column]
+    #[Groups('cart:read')]
     private ?int $quantity = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
+    #[Groups('cart:read')]
     private ?string $subtotal = null;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('cart:read')]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
@@ -33,10 +39,12 @@ class CartItem
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('cart:read')]
     private ?Size $size = null;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('cart:read')]
     private ?Color $color = null;
 
     public function getId(): ?int
